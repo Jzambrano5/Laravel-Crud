@@ -32,20 +32,20 @@
       }
     </script><!-- End SEO tag -->
     <!-- FAVICONS -->
-    <link rel="apple-touch-icon" sizes="144x144" href="{{asset('assets/apple-touch-icon.png')}}">
-    <link rel="shortcut icon" href="{{asset('assets/favicon.ico')}}">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/apple-touch-icon.png">
+    <link rel="shortcut icon" href="assets/favicon.ico">
     <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
     <!-- BEGIN PLUGINS STYLES -->
-    <link rel="stylesheet" href="{{asset('assets/vendor/open-iconic/font/css/open-iconic-bootstrap.min.css')}} ">
-    <link rel="stylesheet" href="{{asset('assets/vendor/%40fortawesome/fontawesome-free/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/flatpickr/flatpickr.min.css')}}"><!-- END PLUGINS STYLES -->
-    <link rel="stylesheet" href="{{asset('assets/vendor/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="assets/vendor/open-iconic/font/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/%40fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="assets/vendor/flatpickr/flatpickr.min.css"><!-- END PLUGINS STYLES -->
+    <link rel="stylesheet" href="assets/vendor/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
     <!-- BEGIN THEME STYLES -->
-    <link rel="stylesheet" href="{{asset('assets/stylesheets/theme.min.css')}}" data-skin="default">
-    
-    <link rel="stylesheet" href="{{asset('assets/stylesheets/custom.css')}}">
+    <link rel="stylesheet" href="assets/stylesheets/theme.min.css" data-skin="default">
+    <link rel="stylesheet" href="assets/stylesheets/theme-dark.min.css" data-skin="dark">
+    <link rel="stylesheet" href="assets/stylesheets/custom.css">
     <script>
       var skin = localStorage.getItem('skin') || 'default';
       var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
@@ -462,34 +462,32 @@
                   <!-- .card-body -->
                   <div class="card-body">
                     <!-- .form -->
-                   
-                    <form method="post" action="{{url('/producto/update',$productos->id)}}">
+                    <form method="post" action="{{url('/save')}}">
                       <!-- .fieldset -->
-                    @method('put')  
                      @csrf
                         <fieldset>
                          <legend>Ingresar Producto</legend> <!-- .form-group -->
                         <div class="form-group">
-                          <label for="tf1" >Producto</label> <input type="text" value="{{ $productos->producto}}" class="form-control" id="tf1" aria-describedby="tf1Help" name="producto"> <small id="tf1Help" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                          <label for="tf1">Producto</label> <input type="text" class="form-control" id="tf1" aria-describedby="tf1Help" name="producto"> <small id="tf1Help" class="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div><!-- /.form-group -->
                         <!-- .form-group -->
                         <div class="form-group">
                           <label for="tf2">Precio</label>
                           <div class="custom-number">
-                            <input type="number" value="{{ $productos->precio}}" class="form-control" id="tf2" min="0" max="10" step="1" value="0" name="precio" >
+                            <input type="number" class="form-control" id="tf2" min="0" max="10" step="1" value="0" name="precio" >
                           </div>
                         </div><!-- /.form-group -->
                         <!-- .form-group -->
                         <div class="form-group">
                           <label for="tf3">Cantidad</label>
                           <div class="custom-file">
-                            <input type="number" value="{{ $productos->cantidad}}" class="form-control" id="tf3" min="0" max="10" step="1" value="0" name="cantidad" > 
+                            <input type="number" class="form-control" id="tf3" min="0" max="10" step="1" value="0" name="cantidad" > 
                           </div>
                         </div><!-- /.form-group -->
                         <!-- .form-group -->
                         
                         <div class="form-actions">
-                        <button class="btn btn-primary" type="submit">Actualizar</button>
+                        <button class="btn btn-primary" type="submit">Guardar</button>
                       </div>
                         <!-- .form-group -->
                         
@@ -517,7 +515,51 @@
                 <!-- grid row -->
                 <div class="table-responsive">
                         <!-- .table -->
-                       
+                        <table class="table table-striped">
+                          <!-- thead -->
+                          <thead class="thead-">
+                            <tr>
+                              <th>ID</th>
+                              <th style="min-width:200px"> Producto </th>
+                              <th> Precio </th>
+                              <th> Cantidad </th>
+                              <th style="width:100px; min-width:100px;"> Acciones</th>
+                            </tr>
+                          </thead><!-- /thead -->
+                          <!-- tbody -->
+                          <tbody>
+                            @foreach($productos as $item)
+                            <tr>
+                              <td> {{$loop->index+1}} </td>
+                              <td> {{$item->producto}} </td>
+                              <td> {{$item->precio}} </td>
+                              <td> {{$item->cantidad}} </td>
+
+                              <td class="text-center">
+                              <a href="{{url('/edit/producto',$item->id)}}" class="btn btn-sm btn-icon btn-secondary"><i class="fa fa-pencil-alt"></i> <span class="sr-only">Edit</span></a> <a href="#" class="btn btn-sm btn-icon btn-secondary"><i class="far fa-trash-alt"></i> <span class="sr-only">Remove</span></a>
+                               
+                              <form action="/delete/producto/{{ $item->id }}" method="post">
+                                  @method('delete')
+                                  @csrf
+                                   <button type="submit" class="btn btn-sn bt-icon btn-secondary" >
+                                     <i class="far fa-trash-alt"></i>
+                                  <span class="sr-only">Remove</span>
+                                     </button>>
+                                </form>
+
+                            </td>
+                            </tr><!-- /tr -->
+                            @endforeach
+                            <!-- tr -->
+                            
+                            <!-- tr -->
+                            
+                            <!-- tr -->
+                            
+                            <!-- tr -->
+                           
+                          </tbody><!-- /tbody -->
+                        </table><!-- /.table -->
                       </div><!-- /.table-responsive -->
                   
                         
